@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "co-scienza"
+version = "0.1.0"
+description = "The backend of co-scienza"
+authors = ["Francesco Oteri <francesco.oteri@gmail.com>"]
+license = "GPL3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
