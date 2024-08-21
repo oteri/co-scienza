@@ -1,15 +1,23 @@
 [tool.poetry]
-name = "co-scienza"
+name = "backend"
 version = "0.1.0"
 description = "The backend of co-scienza"
 authors = ["Francesco Oteri <francesco.oteri@gmail.com>"]
 license = "GPL3"
 readme = "README.md"
+packages = [
+    { include = "app" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-langchain-cli = "^0.0.29"
+uvicorn = "^0.23.2"
+langserve = {extras = ["server"], version = ">=0.0.30"}
+pydantic = "<2"
 
+
+[tool.poetry.group.dev.dependencies]
+langchain-cli = ">=0.0.15"
 
 [build-system]
 requires = ["poetry-core"]
