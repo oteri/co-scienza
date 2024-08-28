@@ -3,11 +3,10 @@ from dotenv import load_dotenv
 from langchain_core.messages import AIMessage,SystemMessage,HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
-from app.tools.uniprot import get_uniprot_data
 from langgraph.graph import END, START, StateGraph
-from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 import operator
+from app.tools.uniprot import get_uniprot_data, search_uniprot_data
 
 from langserve.pydantic_v1 import BaseModel, Field
 
@@ -25,7 +24,7 @@ class InputChat(BaseModel):
 class ChatState(TypedDict):
     messages: Annotated[list[HumanMessage, AIMessage, SystemMessage], operator.add]
 
-toolbox = [get_uniprot_data]
+toolbox = [get_uniprot_data, search_uniprot_data]
 
 llm  = ChatGoogleGenerativeAI(temperature=1, model="gemini-1.5-pro")
 llm_with_tools = llm.bind_tools(toolbox) 
