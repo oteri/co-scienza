@@ -1,24 +1,19 @@
-import requests
-from langchain_core.tools import tool
+from app.tools.uniprot_tools import uniprot_search, uniprot_get_fasta, uniprot_get_data
+from dotenv import load_dotenv
+from langchain.agents import initialize_agent, AgentType
+from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 
-@tool(parse_docstring=True)
-def get_uniprot_data(accession_id: str) -> str:
-    """Fetches a record identified by accession_id from UNIPROT;
+load_dotenv()
 
-    Args:
-        accession_id: The UniProt accession ID (e.g., "P12345").
-    """
-    base_url = "https://rest.uniprot.org/uniprotkb/"
-    url = f"{base_url}{accession_id}"
+llm  = ChatGoogleGenerativeAI(temperature=1, model="gemini-1.5-pro")
 
-    headers = {"Accept": "application/json"}
-    print('Fetching:', accession_id)
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        content = response.json()
-        return content
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return None
+# Create a list of tools
+tools = [uniprot_search, uniprot_get_fasta, uniprot_get_data]
 
+# Initialize the agent
+agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+# Example usage
+if __name__ == "__main__":
+    # Use the agent
+    result = agent.run("Search for the protein insulin in humans and get its FASTA sequence")
+    print(result)
