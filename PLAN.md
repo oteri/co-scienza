@@ -292,7 +292,7 @@ No separate embedding step. RAG Engine handles chunking, embedding, and indexing
 - [x] FastAPI project, SQLAlchemy models (`app/models/`)
 - [x] SQLite async engine + session factory (`app/core/database.py`)
 - [ ] Alembic migrations (tables created via `Base.metadata.create_all` on startup for now)
-- [ ] Google OAuth → GDrive access token storage (OAuth flow scaffolded in `app/api/auth.py`; token persistence TODO)
+- [x] Google OAuth → GDrive access token storage (`OAuthCredential` model in `app/models/oauth_credential.py`; callback persists token + returns `session_token`; `get_credentials()` dependency in `app/core/security.py`)
 - [ ] GDrive folder structure initialization on first run (client scaffolded in `app/services/gdrive/client.py`; startup wiring TODO)
 - [ ] Vertex AI RAG corpus creation — linked to GDrive `/co-scienza/sources/` folder; corpus resource name stored in `VERTEX_AI_RAG_CORPUS` (client scaffolded in `app/services/ai/datastore.py`; wiring TODO)
 - [x] Celery + Redis worker setup (`app/workers/celery_app.py` + `ingest_tasks.py`)
